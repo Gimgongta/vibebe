@@ -14,32 +14,42 @@ const styles = StyleSheet.create({
   cell: {
     width: cellWidthSize,
     height: cellHeightSize,
-    borderWidth: 1,
-    borderColor: '#CCCCCC',
+    borderWidth: 0.5,
+    borderColor: '#eeeeee',
   },
   row: {
     flexDirection: 'row',
   },
 });
 
-function Vibebe() {
+const Vibebe: Function = ({monster}: any) => {
+  const delay = 600;
+
   useEffect(() => {
+    setColors(monster[0]);
     const interval = setInterval(() => {
-      setColors(
-        colors.map((color, index) => (index % 3 === 0 ? '#000' : '#fff')),
-      );
-    }, 1000);
+      for (let i = 0; i < monster.length; i++) {
+        if (i === 0) {
+          setColors(monster[i]);
+        } else {
+          setTimeout(() => setColors(monster[i]), delay * i);
+        }
+      }
+    }, delay * monster.length);
     return () => clearInterval(interval);
+    // eslint-disable-next-line
   }, []);
 
-  const [colors, setColors] = useState(Array(32 * 16).fill('#fff'));
+  const [colors, setColors] = useState(
+    Array(cellWidthNum * cellHeightNum).fill('#fff'),
+  );
 
   const cells = [];
 
   for (let i = 0; i < cellHeightNum; i++) {
     const row = [];
     for (let j = 0; j < cellWidthNum; j++) {
-      const index = i * 32 + j;
+      const index = i * cellWidthNum + j;
       row.push(
         <View
           key={`${i}-${j}`}
@@ -54,6 +64,6 @@ function Vibebe() {
     );
   }
   return <View>{cells}</View>;
-}
+};
 
 export default Vibebe;
