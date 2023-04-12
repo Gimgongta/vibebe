@@ -1,6 +1,5 @@
-export default function CoordinateToInt(coordinate) {
-  const maxXCoordinate = 32;
-  const maxYCoordinate = 16;
+import {COORDINATE_X_SIZE} from '../commons/constants';
 
-  return coordinate[1] * maxXCoordinate + coordinate[0];
+export default function CoordinateToInt(coordinate) {
+  return coordinate[1] * COORDINATE_X_SIZE + coordinate[0];
 }

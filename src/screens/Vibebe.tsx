@@ -1,10 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
+import {
+  COORDINATE_X_SIZE,
+  COORDINATE_Y_SIZE,
+  MOTION_DELAY,
+} from '../commons/constants';
 
-const cellWidthNum = 32;
-const cellHeightNum = 16;
+const cellWidthNum = COORDINATE_X_SIZE;
+const cellHeightNum = COORDINATE_Y_SIZE;
 const heightRatio = 0.2;
-const widthRatio = 0.7;
+const widthRatio = 0.4;
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const cellWidthSize = (screenWidth * widthRatio) / cellWidthNum;
@@ -14,7 +19,9 @@ const styles = StyleSheet.create({
   cell: {
     width: cellWidthSize,
     height: cellHeightSize,
-    borderWidth: 0.5,
+    borderTopWidth: 0.5,
+    borderLeftWidth: 0.5,
+    // borderWidth: 0.5,
     borderColor: '#eeeeee',
   },
   row: {
@@ -23,8 +30,6 @@ const styles = StyleSheet.create({
 });
 
 const Vibebe: Function = ({monster}: any) => {
-  const delay = 600;
-
   useEffect(() => {
     setColors(monster[0]);
     const interval = setInterval(() => {
@@ -32,13 +37,12 @@ const Vibebe: Function = ({monster}: any) => {
         if (i === 0) {
           setColors(monster[i]);
         } else {
-          setTimeout(() => setColors(monster[i]), delay * i);
+          setTimeout(() => setColors(monster[i]), MOTION_DELAY * i);
         }
       }
-    }, delay * monster.length);
+    }, MOTION_DELAY * monster.length);
     return () => clearInterval(interval);
-    // eslint-disable-next-line
-  }, []);
+  }, [monster]);
 
   const [colors, setColors] = useState(
     Array(cellWidthNum * cellHeightNum).fill('#fff'),
